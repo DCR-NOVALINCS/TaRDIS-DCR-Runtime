@@ -299,7 +299,7 @@ public final class GraphRunner {
     }
 
 
-    // unique tokens for spawn-based event-id generation (for locally-initiated events)
+    // unique tokens for spawn-based event-id generation (for locally initiated events)
     private static String generateIdExtensionToken() {
         return UUID.randomUUID().toString();
     }

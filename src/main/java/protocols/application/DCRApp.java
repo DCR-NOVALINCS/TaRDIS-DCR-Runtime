@@ -1,5 +1,6 @@
 package protocols.application;
 
+import app.presentation.endpoint.EndpointDTO;
 import app.presentation.endpoint.EndpointsDTO;
 import app.presentation.mappers.EndpointMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -62,6 +63,7 @@ public final class DCRApp
     private static final int DEFAULT_PORT = 9000; // default port to listen on
     private static final String CLI_ROLE_ARG = "role";
 
+    private UserVal self = null;
     private GraphRunner runner = null;
     //    TODO [revisit] not being used at this point
     private Endpoint endpoint = null;
@@ -145,6 +147,7 @@ public final class DCRApp
                 this.endpoint = endpoint;
                 // inject runtime parameters into self
                 self = instantiateSelf(properties, endpoint.role());
+                this.self = self;
                 graphElement = endpoint.graphElement();
             }
             // aggregates CLI-based functionality and callbacks (replaceable with
@@ -161,7 +164,6 @@ public final class DCRApp
             e.printStackTrace();
         }
     }
-
 
     // ========================================================================
     // CommunicationLayer  (callback to request communication to other nodes)
@@ -190,13 +192,27 @@ public final class DCRApp
     // UI (GUI/CLI) callbacks
     // ========================================================================
 
-    void onEndpointConfiguration(UserVal self, GraphElement graphElement) {
+//    void onEndpointConfiguration(UserVal self, GraphElement graphElement) {
+//        runner = new GraphRunner(self, this);
+//        runner.registerGraphObserver(this);
+//        runner.init(graphElement);
+//        logger.info("Endpoint configuration completed.");
+//    }
+
+    //    TODO needs cleanup - must confirm requirements first
+//    void onEndpointConfiguration(Map<String, GraphElement> endpoints) {
+    void onEndpointConfiguration(Map<String, EndpointDTO> endpoints) {
+        var deserializedEndpoint = endpoints.get(this.endpoint.role().roleName());
+        Objects.requireNonNull(deserializedEndpoint);
+//        var deserializedEndpoint = objectMapper.readValue(jsonEncodedEndpoint,
+//        EndpointDTO.class);
+        Endpoint endpoint = EndpointMapper.mapEndpoint(deserializedEndpoint);
+        this.endpoint = new Endpoint(this.endpoint.role(), endpoint.graphElement());
         runner = new GraphRunner(self, this);
         runner.registerGraphObserver(this);
-        runner.init(graphElement);
+        runner.init(this.endpoint.graphElement());
         logger.info("Endpoint configuration completed.");
     }
-
 
     // current graph as string
     String onDisplayGraph() {
@@ -389,8 +405,8 @@ public final class DCRApp
                 break;
             case RECONFIGURATION:
                 var reconfiguration = (EndpointReconfigurationRequest) o;
-                this.onEndpointConfiguration(reconfiguration.self(),
-                        reconfiguration.graphElement());
+                this.onEndpointConfiguration(
+                        reconfiguration.endpoints());
                 logger.info("Executed endpoint reconfiguration\n\n");
                 response = new GenericWebAPIResponse("Update: endpoint reconfiguration",
                         Response.Status.NO_CONTENT);

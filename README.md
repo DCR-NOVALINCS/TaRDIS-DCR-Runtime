@@ -26,10 +26,10 @@ generate such specifications is through the companion
 a **choreography**.
 
 The project currently contains specifications for two parameterizable roles, based on 
-EDP's *Energy Communities* use case:
- - `P.json`: a **P**rosumer role expecting **id** and **cid** parameters
+EDP's *Energy Communities* use case (see `resources/protocols/application/choreo.json`):
+ - `P`: a **P**rosumer role expecting **id** and **cid** parameters
    - `P(id:String; cid:Integer)`
-  - `CO.json`: a **C**ommunity *O*rchestrator expecting a **cid** parameter
+  - `CO`: a **C**ommunity *O*rchestrator expecting a **cid** parameter
     - `CO(cid:String)`
 
 #### Babel
@@ -46,7 +46,7 @@ mvn clean package
 ```
 
 ---
-##### Launching a single endpoint 
+##### Launching a single endpoint
 Based on the endpoint-specifications already made available in the project you can, 
 for instance, launch the endpoint for a single Prosumer by running 
 (adjust the parameter `interface` accordingly):
@@ -58,7 +58,7 @@ A REST web server for this endpoint will subsequently be available at
 `localhost:8080/rest`.
 
 ---
-##### Launching multiple endpoints
+##### Launching multiple endpoints locally
 The suggested approach to launch multiple endpoints locally, to test the current example,
 is to use Docker containers and the `docker-compose.yml` already made available.
 
@@ -74,3 +74,7 @@ To stop the containers and remove intermediate containers:
 ```
 docker compose down && docker image prune
 ```
+
+[//]: # (---)
+
+[//]: # (##### Interacting with endpoints)

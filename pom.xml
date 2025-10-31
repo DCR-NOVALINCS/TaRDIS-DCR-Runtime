@@ -168,16 +168,16 @@
             <artifactId>babel-webservices</artifactId>
             <version>[0.0.2,)</version>
         </dependency>
-        <dependency>
-            <groupId>pt.unl.fct.di.novasys.babel</groupId>
-            <artifactId>babel-protocol-epiglobalview</artifactId>
-            <version>[1.0.0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.unl.fct.di.novasys.babel</groupId>
-            <artifactId>babel-protocol-eagerpushgossip</artifactId>
-            <version>[1.0.0,)</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>pt.unl.fct.di.novasys.babel</groupId>-->
+<!--            <artifactId>babel-protocol-epiglobalview</artifactId>-->
+<!--            <version>[1.0.0,)</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>pt.unl.fct.di.novasys.babel</groupId>-->
+<!--            <artifactId>babel-protocol-eagerpushgossip</artifactId>-->
+<!--            <version>[1.0.0,)</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>pt.unl.fct.di.novasys.babel</groupId>
             <artifactId>babel-webservices</artifactId>

@@ -50,8 +50,8 @@ public class Main {
 
         babel.start();
         server.start();
-
         logger.info("Server started on {}", server.getURI());
+
         Runtime.getRuntime()
                 .addShutdownHook(new Thread(() -> logger.info("Server stopped!")));
     }

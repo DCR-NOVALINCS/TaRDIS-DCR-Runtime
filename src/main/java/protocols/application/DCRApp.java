@@ -96,14 +96,8 @@ public final class DCRApp
         objectMapper.registerModule(new Jdk8Module());
         var deserializedEndpoints =
                 objectMapper.readValue(jsonEncodedEndpoint, EndpointsDTO.class);
-        for (String r : deserializedEndpoints.endpoints().keySet()) {
-            System.err.println(r);
-        }
-        System.err.println("role: " + role);
         var deserializedEndpoint = deserializedEndpoints.endpoints().get(role);
         Objects.requireNonNull(deserializedEndpoint);
-//        var deserializedEndpoint = objectMapper.readValue(jsonEncodedEndpoint,
-//        EndpointDTO.class);
         return EndpointMapper.mapEndpoint(deserializedEndpoint);
     }
 

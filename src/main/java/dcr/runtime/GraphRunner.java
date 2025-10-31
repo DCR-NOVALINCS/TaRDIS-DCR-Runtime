@@ -205,7 +205,9 @@ public final class GraphRunner {
      */
     public void onReceiveEvent(String eventId, Value receivedValue, UserVal sender,
                                String idExtensionToken) {
+        logger.info("On Receive event {}", eventId);
         var info = receiveEvents.get(eventId);
+        logger.info("Retreived event {}", info.event().toString());
         requireNonNullEnabledEvent(info);
         assertAdmissibleValueType(info.event, receivedValue);
         var event = info.event();
@@ -294,6 +296,8 @@ public final class GraphRunner {
     // extend localUID to
     private static String globalIdExtensionOf(String idExtensionToken, UserVal sender,
                                               UserVal receiver) {
+        receiver.getParamsAsRecordVal().fields().stream().forEach(field -> {
+            System.err.println(field.toString());});
         return String.format("%s_%s", idExtensionToken,
                 Integer.toHexString(sender.hashCode() + receiver.hashCode()));
     }
@@ -387,7 +391,7 @@ public final class GraphRunner {
         });
     }
 
-    // upon Tx/Rx-based spawn
+    // upon Tx-base/Rx-based spawn
     private void onSpawn(EventInstance event, SpawnRelationInfo info, UserVal sender,
                          UserVal receiver, String idExtensionToken,
                          List<StateUpdate> updates) {
@@ -485,6 +489,7 @@ public final class GraphRunner {
             case ReceiveInstance e -> {
                 var info = new EventInfo<>(e, evalContext);
                 receiveEvents.put(instance.remoteID(), info);
+                logger.debug("Storing receive event: remoteID {}", remoteID);
                 yield info;
             }
         };

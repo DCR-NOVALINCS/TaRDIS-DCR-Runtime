@@ -115,19 +115,16 @@ public class GraphModelBuilder {
 
     private void registerComputationEventElement(
             ComputationEventElement element) {
-        System.err.println("Registering computation event element: " + elementId);
         eventConsumers.add(graph -> graph.addComputationEvent(element));
     }
 
     private final void registerInputEventElement(InputEventElement element) {
-        System.err.println("Registering input event element: " + elementId);
         eventConsumers.add(graph -> graph.addInputEvent(element));
     }
 
     private final void registerReceiveEventElement(
 
             ReceiveEventElement element) {
-        System.err.println("Registering receive event element: " + elementId);
         eventConsumers.add(graph -> graph.addReceiveEvent(element));
     }
 

@@ -67,9 +67,8 @@ From the root directory of the project, simply run the following command:
 mvn clean package && docker compose up --build -d
 ```
 
-This will launch 6 Prosumer endpoints, according to the parameters defined in the 
-`docker-compose.yml`. REST webservices for each endpoint will be available at host ports
-ranging from 1234 to 1240.
+This will launch participant endpoints as services, as defined in the 
+`docker-compose.yml`.
 
 To stop the containers and remove intermediate containers:
 ```

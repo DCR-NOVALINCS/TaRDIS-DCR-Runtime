@@ -233,10 +233,10 @@ public final class GraphRunner {
     // Computation expressions and guard expressions support leverage primitive values
     // and references to event-data values. Effects MUST apply in the following order
     //
-    // 1. update the event's value - for a computation event this requires previous
+    // 1. Update the event's value - for a computation event this requires previous
     // evaluation of
     // the data expression;
-    // 2. set the event as 'executed' and 'not-pending';
+    // 2. Set the event as 'executed' and 'not-pending';
     // 3. Propagate side effects (relations) - guards are evaluated against the
     // previous marking,
     // except for the event being executed, for which the updated marking is considered
@@ -296,8 +296,6 @@ public final class GraphRunner {
     // extend localUID to
     private static String globalIdExtensionOf(String idExtensionToken, UserVal sender,
                                               UserVal receiver) {
-        receiver.getParamsAsRecordVal().fields().stream().forEach(field -> {
-            System.err.println(field.toString());});
         return String.format("%s_%s", idExtensionToken,
                 Integer.toHexString(sender.hashCode() + receiver.hashCode()));
     }
@@ -558,8 +556,7 @@ public final class GraphRunner {
 
 
     // Applies a sequence of updates to the graph's state as a single update step; each
-    // update
-    // step should leave the graph in a consistent state (or else...)
+    // update step should leave the graph in a consistent state (or else...)
     private void updateState(Iterable<Consumer<GraphRunner>> updates) {
         updates.forEach(update -> update.accept(this));
     }
@@ -585,38 +582,6 @@ public final class GraphRunner {
         return builder.toString();
     }
 
-    // TODO [deprecate]
-    // public String unparse(String indent) {
-    //     Objects.requireNonNull(indent);
-    //     StringBuilder builder = new StringBuilder();
-    //     builder.append("   == Runtime Graph State ==\n");
-    //     Consumer<Map<EventInstance, List<ControlFlowRelationInfo>>>
-    //     ctrlFlowRelUnparser =
-    //             infoVals -> {
-    //                 infoVals.values()
-    //                         .stream()
-    //                         .map(values -> values.stream()
-    //                                 .map(info -> info.relation.unparse(indent))
-    //                                 .collect(Collectors.joining("\n")))
-    //                         .forEach(builder::append);
-    //             };
-    //     Consumer<Map<EventInstance, List<SpawnRelationInfo>>> spawnRelUnparser =
-    //     infoVals -> {
-    //         infoVals.values()
-    //                 .forEach(list -> list.stream()
-    //                         .map(info -> info.spawn.unparse(indent) + "\n")
-    //                         .forEach(builder::append));
-    //     };
-    //     eventsByUuid.values()
-    //             .stream()
-    //             .map(ctxt -> ctxt.event.unparse(indent) + "\n")
-    //             .forEach(builder::append);
-    //     ctrlFlowRelUnparser.accept(conditions);
-    //     ctrlFlowRelUnparser.accept(responses);
-    //     spawnRelUnparser.accept(spawnRelations);
-    //     return builder.toString();
-    // }
-
     /**
      * @param evalEnv cumulative register keeping track of alpha-renaming,
      *                sender/receiver of triggering
@@ -628,7 +593,6 @@ public final class GraphRunner {
         // cumulative register keeping track of actual sender/receiver of each interaction
         // triggering a spawn (either Tx or Rx) - enables resolving of Receiver(e1)
         // and Sender(e1) type of expressions - empty for top-level events
-
         static SpawnContext init(UserVal self) {
             var selfVal = RecordVal.of(Record.ofEntries(
                     Record.Field.of("params", self.getParamsAsRecordVal())));
@@ -707,12 +671,10 @@ public final class GraphRunner {
                         event.remoteID());
     }
 
-    // Reminder: caller is responsible for providing the correct environment for the
-    // purpose
-    // of ifc evaluation (namely, whether the evalEnv should already reflect the event
-    // being
-    // created - maybe not a good idea... just like referencing 'this' from the
-    // constructor)
+    // Reminder: caller is responsible for providing the correct environment for
+    // IFC evaluation (namely, whether the evalEnv should already reflect the
+    // event being created - maybe not a good idea... just like referencing 'this'
+    // from the constructor)
     private static void assertIfcOK(Event event, Environment<Value> env)
             throws InformationFlowException {
         if (!event.ifcConstraint().eval(env).value()) {

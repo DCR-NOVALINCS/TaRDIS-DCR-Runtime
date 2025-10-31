@@ -47,9 +47,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class DCRApp
-        extends GenericWebServiceProtocol
-        implements GraphObserver, CommunicationLayer {
+public final class DCRApp extends GenericWebServiceProtocol implements GraphObserver,
+        CommunicationLayer {
 
     private static final Logger logger = LogManager.getLogger(DCRApp.class);
 
@@ -73,8 +72,7 @@ public final class DCRApp
     }
 
     private static UserVal instantiateSelf(Properties props, Endpoint.Role roleDecl) {
-        return UserVal.of(roleDecl.roleName(), Record.ofEntries(roleDecl.params()
-                .stream()
+        return UserVal.of(roleDecl.roleName(), Record.ofEntries(roleDecl.params().stream()
                 .map(param -> fetchSelfParamField(props, param.name(), param.value()))
                 .collect(Collectors.toMap(Record.Field::name, Record.Field::value))));
     }
@@ -118,7 +116,7 @@ public final class DCRApp
         // endpoint should enact - based
         // on the membershipDTO, the json-encoded endpoint resource is loaded and used
         // to instantiate,
-        // both the DCR Model and the Role for the actirve participant;
+        // both the DCR Model and the Role for the active participant;
         // - similarly, CLI params are used to inject the runtime parameter values for the
         // membershipDTO (when applicable), and are expected to follow the parameter
         // names declared by the
@@ -126,7 +124,6 @@ public final class DCRApp
         try (InputStream in = DCRApp.class.getResourceAsStream(
 //                TODO revisit/clean up
                 String.format("choreo.json", properties.getProperty(CLI_ROLE_ARG)))) {
-//                String.format("%s.json", properties.getProperty(CLI_ROLE_ARG)))) {
             assert in != null;
             // the user associated with this endpoint
             UserVal self;
@@ -151,7 +148,7 @@ public final class DCRApp
             runner = new GraphRunner(self, this);
             runner.registerGraphObserver(this);
             runner.init(graphElement);
-            // start CLI-based interaction
+            // start CLI-based interaction (for debug purposes)
 //            cmdLineRunner.init();
         } catch (Exception e) {
             logger.error("Caught runtime exception {}", e.getMessage());
@@ -165,13 +162,12 @@ public final class DCRApp
 
     @Override
     public Set<UserVal> uponSendRequest(UserVal requester, String eventId,
-                                        UserSetVal receivers,
-                                        Event.Marking marking, String uidExtension) {
-        var neighbours = DummyMembershipLayer.instance()
-                .resolveParticipants(receivers)
-                .stream()
-                .filter(n -> !n.user().equals(requester))
-                .collect(Collectors.toSet());
+                                        UserSetVal receivers, Event.Marking marking,
+                                        String uidExtension) {
+        var neighbours =
+                DummyMembershipLayer.instance().resolveParticipants(receivers).stream()
+                        .filter(n -> !n.user().equals(requester))
+                        .collect(Collectors.toSet());
         var reachable = new HashSet<MembershipLayer.Neighbour>();
         neighbours.forEach(neighbour -> {
             if (deliverMessage(neighbour, eventId, marking, requester, uidExtension)) {
@@ -215,9 +211,7 @@ public final class DCRApp
 
     // called from UI
     String onListEnabledEvents() {
-        return runner.enabledEvents()
-                .stream()
-                .map(Object::toString)
+        return runner.enabledEvents().stream().map(Object::toString)
                 .collect(Collectors.joining("\n"));
     }
 
@@ -277,8 +271,8 @@ public final class DCRApp
     // on request to execute a Receive event (called from Babel's internal network
     // after a remote event has been executed
     private void onExecuteReceiveEvent(GraphRunner runner, String eventId,
-                                       Event.Marking marking,
-                                       UserVal sender, String uidExtension) {
+                                       Event.Marking marking, UserVal sender,
+                                       String uidExtension) {
         logger.info("Executing Receive event '{}': received {}", eventId, marking);
         try {
             runner.onReceiveEvent(eventId, marking.value(), sender, uidExtension);
@@ -315,8 +309,8 @@ public final class DCRApp
     private void uponReceiveDcrRequest(AppRequest appRequest, short sourceProtocol) {
         try {
             onExecuteReceiveEvent(runner, appRequest.getEventId(),
-                    appRequest.getMarking(),
-                    appRequest.getSender(), appRequest.getIdExtensionToken());
+                    appRequest.getMarking(), appRequest.getSender(),
+                    appRequest.getIdExtensionToken());
             for (var socket : super.getWSInstances()) {
                 socket.sendMessage(
                         Mappers.fromEndpoint(this.runner.self, this.getEnabledEvents()));
@@ -399,8 +393,7 @@ public final class DCRApp
                 break;
             case RECONFIGURATION:
                 var reconfiguration = (EndpointReconfigurationRequest) o;
-                this.onEndpointConfiguration(
-                        reconfiguration.endpoints());
+                this.onEndpointConfiguration(reconfiguration.endpoints());
                 logger.info("Executed endpoint reconfiguration\n\n");
                 response = new GenericWebAPIResponse("Update: endpoint reconfiguration",
                         Response.Status.NO_CONTENT);
@@ -443,8 +436,7 @@ public final class DCRApp
 
         }
         for (var socket : super.getWSInstances()) {
-            socket.sendMessage(
-                    Mappers.fromEndpoint(this.runner.self, events));
+            socket.sendMessage(Mappers.fromEndpoint(this.runner.self, events));
         }
     }
 

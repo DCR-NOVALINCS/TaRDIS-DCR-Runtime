@@ -5,8 +5,9 @@ import app.presentation.endpoint.data.values.ValueDTO;
 
 import java.util.Map;
 
-public record EndpointReconfigurationRequestDTO(MembershipDTO membershipDTO, EndpointsDTO endpointsDTO) {
+//public record EndpointReconfigurationRequestDTO(MembershipDTO membershipDTO, EndpointsDTO endpointsDTO) {
+public record EndpointReconfigurationRequestDTO(EndpointsDTO endpointsDTO) {
 
-    public record MembershipDTO(String role, Map<String, ValueDTO> params) {
-    }
+//    public record MembershipDTO(String role, Map<String, ValueDTO> params) {
+//    }
 }

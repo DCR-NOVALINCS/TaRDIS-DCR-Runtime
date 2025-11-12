@@ -118,25 +118,6 @@
               "label": "acc",
               "dataType": { "valueType": "void" },
               "marking": { "isPending": false, "isIncluded": false },
-              "instantiationConstraint": {
-                "binaryOp": {
-                  "expr1": {
-                    "propDeref": {
-                      "propBasedExpr": {
-                        "propDeref": {
-                          "propBasedExpr": {
-                            "eventRef": { "value": "_@self" }
-                          },
-                          "prop": "params"
-                        }
-                      },
-                      "prop": "cid"
-                    }
-                  },
-                  "expr2": { "intLit": { "value": 1 } },
-                  "op": "equals"
-                }
-              },
               "ifcConstraint": { "boolLit": { "value": true } }
             },
             "receivers": []
@@ -233,26 +214,7 @@
                   "controlFlowRelation": {
                     "relationCommon": {
                       "endpointElementUID": "5",
-                      "sourceId": "rp_f_2_RxO",
-                      "instantiationConstraint": {
-                        "binaryOp": {
-                          "expr1": {
-                            "propDeref": {
-                              "propBasedExpr": {
-                                "propDeref": {
-                                  "propBasedExpr": {
-                                    "eventRef": { "value": "_@self" }
-                                  },
-                                  "prop": "params"
-                                }
-                              },
-                              "prop": "cid"
-                            }
-                          },
-                          "expr2": { "intLit": { "value": 1 } },
-                          "op": "equals"
-                        }
-                      }
+                      "sourceId": "rp_f_2_RxO"
                     },
                     "targetId": "acc_1_TxO",
                     "relationType": "condition"
@@ -266,26 +228,7 @@
           "controlFlowRelation": {
             "relationCommon": {
               "endpointElementUID": "9",
-              "sourceId": "acc_1_TxO",
-              "instantiationConstraint": {
-                "binaryOp": {
-                  "expr1": {
-                    "propDeref": {
-                      "propBasedExpr": {
-                        "propDeref": {
-                          "propBasedExpr": {
-                            "eventRef": { "value": "_@self" }
-                          },
-                          "prop": "params"
-                        }
-                      },
-                      "prop": "cid"
-                    }
-                  },
-                  "expr2": { "intLit": { "value": 1 } },
-                  "op": "equals"
-                }
-              }
+              "sourceId": "acc_1_TxO"
             },
             "targetId": "acc_1_TxO",
             "relationType": "exclude"
@@ -295,26 +238,7 @@
           "controlFlowRelation": {
             "relationCommon": {
               "endpointElementUID": "8",
-              "sourceId": "rq_f_0_TxO",
-              "instantiationConstraint": {
-                "binaryOp": {
-                  "expr1": {
-                    "propDeref": {
-                      "propBasedExpr": {
-                        "propDeref": {
-                          "propBasedExpr": {
-                            "eventRef": { "value": "_@self" }
-                          },
-                          "prop": "params"
-                        }
-                      },
-                      "prop": "cid"
-                    }
-                  },
-                  "expr2": { "intLit": { "value": 1 } },
-                  "op": "equals"
-                }
-              }
+              "sourceId": "rq_f_0_TxO"
             },
             "targetId": "acc_1_TxO",
             "relationType": "response"
@@ -324,26 +248,7 @@
           "controlFlowRelation": {
             "relationCommon": {
               "endpointElementUID": "7",
-              "sourceId": "rq_f_0_TxO",
-              "instantiationConstraint": {
-                "binaryOp": {
-                  "expr1": {
-                    "propDeref": {
-                      "propBasedExpr": {
-                        "propDeref": {
-                          "propBasedExpr": {
-                            "eventRef": { "value": "_@self" }
-                          },
-                          "prop": "params"
-                        }
-                      },
-                      "prop": "cid"
-                    }
-                  },
-                  "expr2": { "intLit": { "value": 1 } },
-                  "op": "equals"
-                }
-              }
+              "sourceId": "rq_f_0_TxO"
             },
             "targetId": "acc_1_TxO",
             "relationType": "include"

@@ -10,6 +10,83 @@
     "graph": {
       "events": [
         {
+          "inputEvent": {
+            "common": {
+              "endpointElementUID": "c_2_Tx",
+              "choreoElementUID": "c_2",
+              "id": "c",
+              "label": "consume",
+              "dataType": { "valueType": "void" },
+              "marking": { "isPending": false, "isIncluded": true },
+              "ifcConstraint": { "boolLit": { "value": true } }
+            },
+            "receivers": [
+              {
+                "roleExpr": {
+                  "roleLabel": "P",
+                  "params": [
+                    { "name": "id" },
+                    {
+                      "name": "cid",
+                      "value": {
+                        "propDeref": {
+                          "propBasedExpr": {
+                            "propDeref": {
+                              "propBasedExpr": {
+                                "eventRef": { "value": "_@self" }
+                              },
+                              "prop": "params"
+                            }
+                          },
+                          "prop": "cid"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "receiveEvent": {
+            "common": {
+              "endpointElementUID": "c_2_Rx",
+              "choreoElementUID": "c_2",
+              "id": "c",
+              "label": "consume",
+              "dataType": { "valueType": "void" },
+              "marking": { "isPending": false, "isIncluded": true }
+            },
+            "initiators": [
+              {
+                "roleExpr": {
+                  "roleLabel": "P",
+                  "params": [
+                    { "name": "id" },
+                    {
+                      "name": "cid",
+                      "value": {
+                        "propDeref": {
+                          "propBasedExpr": {
+                            "propDeref": {
+                              "propBasedExpr": {
+                                "eventRef": { "value": "_@self" }
+                              },
+                              "prop": "params"
+                            }
+                          },
+                          "prop": "cid"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "receiveEvent": {
             "common": {
               "endpointElementUID": "rq_f_0_RxO",
@@ -51,7 +128,131 @@
         {
           "spawnRelation": {
             "relationCommon": {
-              "endpointElementUID": "rq_f_0_RxO_2",
+              "endpointElementUID": "c_2_Rx_9",
+              "sourceId": "c_2_Rx"
+            },
+            "triggerId": "_@trigger$c",
+            "graph": {
+              "events": [
+                {
+                  "receiveEvent": {
+                    "common": {
+                      "endpointElementUID": "dec_6_RxO",
+                      "choreoElementUID": "dec_6",
+                      "id": "dec",
+                      "label": "decision",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true }
+                    },
+                    "initiators": [ { "initiatorExpr": { "eventId": "c" } } ]
+                  }
+                },
+                {
+                  "inputEvent": {
+                    "common": {
+                      "endpointElementUID": "rep_5_TxO",
+                      "choreoElementUID": "rep_5",
+                      "id": "rep",
+                      "label": "reply",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true },
+                      "ifcConstraint": { "boolLit": { "value": true } }
+                    },
+                    "receivers": [ { "initiatorExpr": { "eventId": "c" } } ]
+                  }
+                }
+              ],
+              "relations": [
+                {
+                  "controlFlowRelation": {
+                    "relationCommon": {
+                      "endpointElementUID": "12",
+                      "sourceId": "rep_5_TxO"
+                    },
+                    "targetId": "rep_5_TxO",
+                    "relationType": "exclude"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "spawnRelation": {
+            "relationCommon": {
+              "endpointElementUID": "c_2_Tx_9",
+              "sourceId": "c_2_Tx"
+            },
+            "triggerId": "_@trigger$c",
+            "graph": {
+              "events": [
+                {
+                  "inputEvent": {
+                    "common": {
+                      "endpointElementUID": "dec_6_TxO",
+                      "choreoElementUID": "dec_6",
+                      "id": "dec",
+                      "label": "decision",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true },
+                      "ifcConstraint": { "boolLit": { "value": true } }
+                    },
+                    "receivers": [ { "receiverExpr": { "eventId": "c" } } ]
+                  }
+                },
+                {
+                  "receiveEvent": {
+                    "common": {
+                      "endpointElementUID": "rep_5_RxO",
+                      "choreoElementUID": "rep_5",
+                      "id": "rep",
+                      "label": "reply",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true }
+                    },
+                    "initiators": [ { "receiverExpr": { "eventId": "c" } } ]
+                  }
+                }
+              ],
+              "relations": [
+                {
+                  "controlFlowRelation": {
+                    "relationCommon": {
+                      "endpointElementUID": "12",
+                      "sourceId": "rep_5_RxO"
+                    },
+                    "targetId": "rep_5_RxO",
+                    "relationType": "exclude"
+                  }
+                },
+                {
+                  "controlFlowRelation": {
+                    "relationCommon": {
+                      "endpointElementUID": "14",
+                      "sourceId": "rep_5_RxO"
+                    },
+                    "targetId": "dec_6_TxO",
+                    "relationType": "condition"
+                  }
+                },
+                {
+                  "controlFlowRelation": {
+                    "relationCommon": {
+                      "endpointElementUID": "13",
+                      "sourceId": "dec_6_TxO"
+                    },
+                    "targetId": "dec_6_TxO",
+                    "relationType": "exclude"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "spawnRelation": {
+            "relationCommon": {
+              "endpointElementUID": "rq_f_0_RxO_4",
               "sourceId": "rq_f_0_RxO"
             },
             "triggerId": "_@trigger$rq_f",
@@ -60,8 +261,8 @@
                 {
                   "inputEvent": {
                     "common": {
-                      "endpointElementUID": "rp_f_2_TxO",
-                      "choreoElementUID": "rp_f_2",
+                      "endpointElementUID": "rp_f_4_TxO",
+                      "choreoElementUID": "rp_f_4",
                       "id": "rp_f",
                       "label": "reply_fcast",
                       "dataType": { "valueType": "void" },
@@ -78,20 +279,20 @@
                 {
                   "controlFlowRelation": {
                     "relationCommon": {
-                      "endpointElementUID": "6",
+                      "endpointElementUID": "8",
                       "sourceId": "rq_f_0_RxO"
                     },
-                    "targetId": "rp_f_2_TxO",
+                    "targetId": "rp_f_4_TxO",
                     "relationType": "exclude"
                   }
                 },
                 {
                   "controlFlowRelation": {
                     "relationCommon": {
-                      "endpointElementUID": "4",
-                      "sourceId": "rp_f_2_TxO"
+                      "endpointElementUID": "6",
+                      "sourceId": "rp_f_4_TxO"
                     },
-                    "targetId": "rp_f_2_TxO",
+                    "targetId": "rp_f_4_TxO",
                     "relationType": "exclude"
                   }
                 }
@@ -112,10 +313,51 @@
         {
           "inputEvent": {
             "common": {
+              "endpointElementUID": "c_co_3_Tx",
+              "choreoElementUID": "c_co_3",
+              "id": "c_co",
+              "label": "Consume_CO",
+              "dataType": { "valueType": "void" },
+              "marking": { "isPending": false, "isIncluded": true },
+              "ifcConstraint": { "boolLit": { "value": true } }
+            },
+            "receivers": [
+              {
+                "roleExpr": {
+                  "roleLabel": "CO",
+                  "params": [ { "name": "cid" } ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "receiveEvent": {
+            "common": {
+              "endpointElementUID": "c_co_3_Rx",
+              "choreoElementUID": "c_co_3",
+              "id": "c_co",
+              "label": "Consume_CO",
+              "dataType": { "valueType": "void" },
+              "marking": { "isPending": false, "isIncluded": true }
+            },
+            "initiators": [
+              {
+                "roleExpr": {
+                  "roleLabel": "CO",
+                  "params": [ { "name": "cid" } ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "inputEvent": {
+            "common": {
               "endpointElementUID": "acc_1_TxO",
               "choreoElementUID": "acc_1",
               "id": "acc",
-              "label": "acc",
+              "label": "Accounting",
               "dataType": { "valueType": "void" },
               "marking": { "isPending": false, "isIncluded": false },
               "ifcConstraint": { "boolLit": { "value": true } }
@@ -167,7 +409,76 @@
         {
           "spawnRelation": {
             "relationCommon": {
-              "endpointElementUID": "rq_f_0_TxO_2",
+              "endpointElementUID": "c_co_3_Rx_15",
+              "sourceId": "c_co_3_Rx"
+            },
+            "triggerId": "_@trigger$c_co",
+            "graph": {
+              "events": [
+                {
+                  "inputEvent": {
+                    "common": {
+                      "endpointElementUID": "reply_7_TxO",
+                      "choreoElementUID": "reply_7",
+                      "id": "reply",
+                      "label": "Reply_CO",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true },
+                      "ifcConstraint": { "boolLit": { "value": true } }
+                    },
+                    "receivers": [
+                      { "initiatorExpr": { "eventId": "c_co" } }
+                    ]
+                  }
+                }
+              ],
+              "relations": [
+                {
+                  "controlFlowRelation": {
+                    "relationCommon": {
+                      "endpointElementUID": "17",
+                      "sourceId": "reply_7_TxO"
+                    },
+                    "targetId": "reply_7_TxO",
+                    "relationType": "exclude"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "spawnRelation": {
+            "relationCommon": {
+              "endpointElementUID": "c_co_3_Tx_15",
+              "sourceId": "c_co_3_Tx"
+            },
+            "triggerId": "_@trigger$c_co",
+            "graph": {
+              "events": [
+                {
+                  "receiveEvent": {
+                    "common": {
+                      "endpointElementUID": "reply_7_RxO",
+                      "choreoElementUID": "reply_7",
+                      "id": "reply",
+                      "label": "Reply_CO",
+                      "dataType": { "valueType": "void" },
+                      "marking": { "isPending": false, "isIncluded": true }
+                    },
+                    "initiators": [
+                      { "receiverExpr": { "eventId": "c_co" } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "spawnRelation": {
+            "relationCommon": {
+              "endpointElementUID": "rq_f_0_TxO_4",
               "sourceId": "rq_f_0_TxO"
             },
             "triggerId": "_@trigger$rq_f",
@@ -176,8 +487,8 @@
                 {
                   "receiveEvent": {
                     "common": {
-                      "endpointElementUID": "rp_f_2_RxO",
-                      "choreoElementUID": "rp_f_2",
+                      "endpointElementUID": "rp_f_4_RxO",
+                      "choreoElementUID": "rp_f_4",
                       "id": "rp_f",
                       "label": "reply_fcast",
                       "dataType": { "valueType": "void" },
@@ -193,28 +504,28 @@
                 {
                   "controlFlowRelation": {
                     "relationCommon": {
-                      "endpointElementUID": "4",
-                      "sourceId": "rp_f_2_RxO"
+                      "endpointElementUID": "6",
+                      "sourceId": "rp_f_4_RxO"
                     },
-                    "targetId": "rp_f_2_RxO",
+                    "targetId": "rp_f_4_RxO",
                     "relationType": "exclude"
                   }
                 },
                 {
                   "controlFlowRelation": {
                     "relationCommon": {
-                      "endpointElementUID": "6",
+                      "endpointElementUID": "8",
                       "sourceId": "rq_f_0_TxO"
                     },
-                    "targetId": "rp_f_2_RxO",
+                    "targetId": "rp_f_4_RxO",
                     "relationType": "exclude"
                   }
                 },
                 {
                   "controlFlowRelation": {
                     "relationCommon": {
-                      "endpointElementUID": "5",
-                      "sourceId": "rp_f_2_RxO"
+                      "endpointElementUID": "7",
+                      "sourceId": "rp_f_4_RxO"
                     },
                     "targetId": "acc_1_TxO",
                     "relationType": "condition"
@@ -227,7 +538,7 @@
         {
           "controlFlowRelation": {
             "relationCommon": {
-              "endpointElementUID": "9",
+              "endpointElementUID": "20",
               "sourceId": "acc_1_TxO"
             },
             "targetId": "acc_1_TxO",
@@ -237,7 +548,7 @@
         {
           "controlFlowRelation": {
             "relationCommon": {
-              "endpointElementUID": "8",
+              "endpointElementUID": "19",
               "sourceId": "rq_f_0_TxO"
             },
             "targetId": "acc_1_TxO",
@@ -247,7 +558,7 @@
         {
           "controlFlowRelation": {
             "relationCommon": {
-              "endpointElementUID": "7",
+              "endpointElementUID": "18",
               "sourceId": "rq_f_0_TxO"
             },
             "targetId": "acc_1_TxO",

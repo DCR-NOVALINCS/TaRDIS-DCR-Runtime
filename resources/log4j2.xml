@@ -9,7 +9,7 @@
 
     <Loggers>
         <!-- UNCOMMENT TO SPECIFY LOG LEVEL OF PACKAGES-->
-        <Logger level="debug" name="io.netty"/>
+        <Logger level="info" name="io.netty"/>
         <Logger level="debug" name="pt.unl.fct.di.novasys.network"/>
         <Logger level="debug" name="pt.unl.fct.di.novasys.channel"/>
         <Logger level="debug" name="pt.unl.fct.di.novasys.babel"/>

@@ -57,7 +57,7 @@ public class DistributedDCRProtocol
         }
         // create the channel with the provided properties
         channelId = createChannel(TCPChannel.NAME, channelProps);
-
+        logger.info("Created channel with id {}", channelId);
         // TODO: Create new message class for the dcr event execution.
 
         // register protocol handlers
@@ -162,12 +162,13 @@ public class DistributedDCRProtocol
             int channelId) {
         logger.info("Received DCR message from {}; message: {}; " +
                         "idExtensionToken: {};" +
-                        " sender: {}",
+                        " sender: {} (channelId: {})",
                 // msg.getPingId(),
                 from.toString(),
                 msg.getMessage(),
                 msg.getIdExtensionToken(),
-                msg.getSender());
+                msg.getSender(),
+                channelId);
         // FIXME dummy null fields
         AppRequest request =
                 new AppRequest(msg.getMessage(), msg.getMarking(), from, msg.getSender(),
@@ -211,7 +212,7 @@ public class DistributedDCRProtocol
      */
     private void uponMessageFailed(ProtoMessage msg, Host host, short destProto, Throwable error,
             int channelId) {
-        logger.warn("Unable to deliver DCR message: {} to host: {} with error: {}", msg, host,
+        logger.info("Unable to deliver DCR message: {} to host: {} with error: {}", msg, host,
                 error.getMessage());
     }
 
@@ -224,7 +225,7 @@ public class DistributedDCRProtocol
      *         the channel ID (from which channel the event was received)
      */
     private void uponInConnectionUp(InConnectionUp event, int channel) {
-        logger.warn(event);
+        logger.warn("{}: channel {}", event, channelId);
     }
 
     /**
@@ -236,7 +237,7 @@ public class DistributedDCRProtocol
      *         the channel ID (from which channel the event was received)
      */
     private void uponInConnectionDown(InConnectionDown event, int channel) {
-        logger.warn(event);
+        logger.warn("{}: channel {}", event, channelId);
     }
 
     /**
@@ -248,7 +249,7 @@ public class DistributedDCRProtocol
      *         the channel ID (from which channel the event was received)
      */
     private void uponOutConnectionDown(OutConnectionDown event, int channel) {
-        logger.warn(event);
+        logger.warn("{}: channel {}", event, channelId);
     }
 
 }

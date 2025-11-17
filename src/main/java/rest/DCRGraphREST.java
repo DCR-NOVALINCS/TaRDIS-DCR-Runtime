@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
     @Override
     public Response endpointProcess() {
         logger.info("\n\nEndpoint process requested");
-        return Response.status(Response.Status.OK).entity("all good")
+        return Response.status(Response.Status.OK).entity("Endpoint running!")
                 .type(MediaType.TEXT_PLAIN).build();
     }
 

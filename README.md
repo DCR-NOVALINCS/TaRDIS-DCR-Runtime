@@ -7,7 +7,7 @@ A [Babel](https://codelab.fct.unl.pt/di/research/tardis/wp6)-based runtime platf
 ## Table of Contents
 - [Quick Start](#quick-start)
   - [Project Requirements](#project-requirements)
-  - [Installation](#installation)
+  - [Installing the Project](#installing-the-project)
   - [Endpoint Deployment](#endpoint-deployment)
 - [Configuration](#configuration)
 - [Interacting with Endpoints](#interacting-with-endpoints)
@@ -30,7 +30,7 @@ mvn --version
 If these trigger errors, you might have to install these dependencies. Additionally, ensure 
 that Maven correctly detects your JDK installation.
 
-### Installation
+### Installing the project
 This project comes with a DCR-based specification for two types of endpoints 
 (*Community Orchestrators*, and *Prosumers*), which can be used to quickly demo its
 usage.
@@ -49,26 +49,30 @@ mvn clean package
 ```
 
 ### Endpoint Deployment
-You can test the installation a pre-defined specification supporting two types of endpoint: *Community 
-Orchestrator* and *Prosumer*. 
 
-You might want to start by deployin a single endpoint locally first, for instance, 
-a *Prosumer*:
+The project includes a pre-defined specification targeting two types of endpoint, *Community
+Orchestrator* and *Prosumer*, derived from the *Energy Communities* use case.  
+
+**Deploying a single endpoint**.
+
+To locally deploy a single endpoint, for instance a *Prosumer*, run the following command:
 
 ```sh
 java -jar target/babel-backend.jar interface=eth0 role=P id=1 cid=1
 ```
-(you may need to define a different `interface`, according to the network interfaces
-available in your system - *e.g.*, `wlan0` or `en0`).
+*Note*: you may need to define a different `interface`, according to the network interfaces
+available in your system - *e.g.*, `wlan0` or `en0`.
 
-Finally, check that the endpoint is running locally on port 8080:  
+You can check that the endpoint is running locally on port 8080:  
 ```sh
 curl --location 'localhost:8080/rest/dcr'
 ```
 
-Alternatively, you can also deploy multiple endpoints locally. A straightforward approach
-is to leverage `Docker` containers and the `docker-compose.yml` already made available for 
-demo purposes.
+**Deploying multiple endpoints**.
+
+To locally deploy multiple endpoints, the most straightforward approach is to use `Docker`
+containers. A `docker-compose.yml` is included in the project to illustrate this 
+approach.
 
 Assuming `Docker` is already installed, run the following command from the root directory
 of the project:
@@ -76,7 +80,7 @@ of the project:
 mvn clean package && docker compose up --build -d
 ```
 
-This will launch local endpoints, following the services defined in the
+This will launch local endpoints, as declared by the services defined in the
 `docker-compose.yml`.
 
 Note that each container maps its port `8080` to a distinct 
@@ -103,9 +107,9 @@ Endpoint specifications are encoded within a single `.json` file, following the 
 `src/main/resources/protocols/dcr-schema.json`. 
 
 The suggested (and expected) approach to 
-generate such specifications is through the companion 
-[TaRDIS/DCR Compiler](https://codelab.fct.unl.pt/di/research/tardis/wp3/TaRDIS-DCR-Compiler) tool,
- which automatically derives such specification off a (global) specification:
+generate such specifications is either through the [TaRDIS/DCR Editor](https://codelab.fct.unl.pt/di/research/tardis/wp3/TaRDIS-DCR-Editor) tool, or   
+directly through the [TaRDIS/DCR Compiler](https://codelab.fct.unl.pt/di/research/tardis/wp3/TaRDIS-DCR-Compiler) tool. 
+In either case, the endpoints are automatically derived off a (global) specification:
 a *DCR Choreography*.
 
 The project currently contains specifications for two parameterizable roles, based on 

@@ -55,6 +55,9 @@ public class DistributedDCRProtocol
         else {
             channelProps.setProperty(TCPChannel.PORT_KEY, DEFAULT_PORT + "");
         }
+        // temporary hardcoded fix - overriding default (1sec) TCP connection timeout
+        String connTimeout = props.getProperty("connect_timeout", "4000");
+        channelProps.setProperty(TCPChannel.CONNECT_TIMEOUT_KEY, connTimeout);
         // create the channel with the provided properties
         channelId = createChannel(TCPChannel.NAME, channelProps);
         logger.info("Created channel with id {}", channelId);
